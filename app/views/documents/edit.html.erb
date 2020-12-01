@@ -1,0 +1,26 @@
+<h1>Editing Document</h1>
+
+<%= render 'form', document: @document %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @document.sorted_inputs.each do |input| %>
+      <tr>
+        <td><%= input.blob.filename %></td>
+        <td><%= link_to 'Move up', "/documents/#{@document.id}/up/#{input.id}", method: :post %></td>
+        <td><%= link_to 'Move down', "/documents/#{@document.id}/down/#{input.id}", method: :post %></td>
+        <td><%= link_to 'Destroy', "/documents/#{@document.id}/#{input.id}", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Show', @document %> |
+<%= link_to 'Back', documents_path %>

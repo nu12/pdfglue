@@ -1,0 +1,22 @@
+version: '2'
+
+services: 
+    rails:
+        image: nu12/pdfglue
+        ports: 
+            - "80:3000"
+        links:
+            - "database"
+        environment: 
+            SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            
+        restart: unless-stopped
+    database:
+        image: postgres:13.1-alpine
+        restart: unless-stopped
+        environment: 
+            POSTGRES_DB: pdfglue
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
