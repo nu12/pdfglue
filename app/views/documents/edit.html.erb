@@ -1,8 +1,11 @@
 <h1>Editing Document</h1>
 
+<%= link_to 'Show', @document %> |
+<%= link_to 'Back', documents_path %>
+
 <%= render 'form', document: @document %>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
@@ -22,5 +25,3 @@
   </tbody>
 </table>
 
-<%= link_to 'Show', @document %> |
-<%= link_to 'Back', documents_path %>
