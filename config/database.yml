@@ -10,19 +10,19 @@ default: &default
   timeout: 5000
   adapter: postgresql
   encoding: unicode
+  database: postgres
+  username: postgres
 
 #development:
 #  <<: *default
 #  database: db/development.sqlite3
 
 # Upgrading the database to Postgress
-# $ docker run --name pdfglue-postgres -e POSTGRES_USER=pdfglue -e POSTGRES_DB=pdfglue_development -e POSTGRES_PASSWORD=pdfglue_development_password -p 5432:5432 -d postgres
+# $ docker run --name pdfglue-postgres -e POSTGRES_PASSWORD=pdfglue_development_password -p 5432:5432 -d postgres
 development:
   <<: *default
-  database: pdfglue_development
   pool: 5
   host: 127.0.0.1
-  username: pdfglue
   password: pdfglue_development_password
 
 
@@ -35,8 +35,5 @@ test:
 
 production:
   <<: *default
-  database: pdfglue
-  pool: 5
-  host: database
-  username: <%= ENV['POSTGRES_USER'] %>
+  host: database # See docker-compose.yml
   password: <%= ENV['POSTGRES_PASSWORD'] %>

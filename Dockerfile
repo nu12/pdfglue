@@ -1,5 +1,6 @@
 FROM ruby:2.7.1-alpine as builder
 
+# Set ARG in hooks/build to use Dockerhub autobuild
 ARG RAILS_MASTER_KEY
 ENV RAILS_ENV=production
 
