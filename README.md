@@ -9,7 +9,7 @@ This app is just an interface to use ghostscript CLI that you can run locally.
 Create the database, bundle install, migrate and run the application:
 
 ```shell
-$ docker run --name pdfglue-postgres -e POSTGRES_USER=pdfglue -e POSTGRES_DB=pdfglue_development -e POSTGRES_PASSWORD=pdfglue_development_password -p 5432:5432 -d postgres
+$ docker run --name pdfglue-postgres -e POSTGRES_PASSWORD=pdfglue_development_password -p 5432:5432 -d postgres
 $ bundle install
 $ yarn install --check-files
 $ rails db:migrate
@@ -31,8 +31,6 @@ services:
         links:
             - "database"
         environment: 
-            SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-            POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
             
         restart: unless-stopped
@@ -40,15 +38,19 @@ services:
         image: postgres:13.1-alpine
         restart: unless-stopped
         environment: 
-            POSTGRES_DB: pdfglue
-            POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 ```
 
 Run: 
 
 ```shell
-$ SECRET_KEY_BASE=your-key POSTGRES_USER=your-user POSTGRES_PASSWORD=your-password docker-compose up
+$ POSTGRES_PASSWORD=your-password docker-compose up
 ```
 
 Note: you can use the `docker-compose.yml` file from the repository if you've cloned it.
+
+## Manual build
+
+```shell
+$ docker build --build-arg RAILS_MASTER_KEY=master-key-here -t nu12/pdfglue .
+```
