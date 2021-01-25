@@ -34,7 +34,7 @@ ENV RAILS_LOG_TO_STDOUT=true \
     NODE_ENV=production \
     RAILS_SERVE_STATIC_FILES=true
 
-RUN apk add --no-cache ghostscript postgresql-client tzdata
+RUN apk add --no-cache ghostscript imagemagick postgresql-client tzdata
 
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder /app/ /app/

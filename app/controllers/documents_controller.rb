@@ -9,17 +9,11 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    # gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=output.pdf BanqueLaurentienne.pdf AlyssonCosta_fr.pdf
-    docs_to_glue = ""
     output_tmp_name = "/tmp/#{SecureRandom.hex}.pdf"
-    @document.sorted_inputs.each do | input | 
-      File.open("/tmp/#{SecureRandom.hex}", 'wb') do |file|
-        file.write(input.download)
-        docs_to_glue += " #{File.expand_path(file)}"
-      end 
-    end
-    p docs_to_glue
-    %x(gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=#{output_tmp_name} #{docs_to_glue})
+
+    docs_to_glue = DocumentsHelper.create_tmp_files(@document.sorted_inputs)
+
+    DocumentsHelper.create_output_file(docs_to_glue, output_tmp_name)
 
     @document.output.attach(io: File.open("#{output_tmp_name}"), filename: "#{@document.name}.pdf")
   end
@@ -32,7 +26,10 @@ class DocumentsController < ApplicationController
   end
 
   def create
+    # TODO: convert image to pdf here
+
     @document = Document.new(document_params)
+    
 
     respond_to do |format|
       if @document.save
@@ -46,6 +43,7 @@ class DocumentsController < ApplicationController
   end
 
   def update
+    # TODO: convert image to pdf here
     respond_to do |format|
       if @document.update(document_params)
         format.html { redirect_to edit_document_path(@document), notice: 'Document was successfully updated.' }
