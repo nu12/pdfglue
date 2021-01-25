@@ -1,6 +1,6 @@
 <h1>Editing Document</h1>
 
-<%= link_to 'Show', @document %> |
+<%= link_to 'Output', @document %> |
 <%= link_to 'Back', documents_path %>
 
 <%= render 'form', document: @document %>
@@ -9,7 +9,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th colspan="5"></th>
+      <th colspan="5">Controls</th>
     </tr>
   </thead>
 
@@ -17,11 +17,11 @@
     <% @document.sorted_inputs.each do |input| %>
       <tr>
         <td><%= input.blob.filename %></td>
-        <td><%= link_to 'Move top', "/documents/#{@document.id}/top/#{input.id}", method: :post %></td>
-        <td><%= link_to 'Move up', "/documents/#{@document.id}/up/#{input.id}", method: :post %></td>
-        <td><%= link_to 'Move down', "/documents/#{@document.id}/down/#{input.id}", method: :post %></td>
-        <td><%= link_to 'Move bottom', "/documents/#{@document.id}/bottom/#{input.id}", method: :post %></td>
-        <td><%= link_to 'Destroy', "/documents/#{@document.id}/#{input.id}", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td></span> <%= link_to '', "/documents/#{@document.id}/top/#{input.id}", method: :post, class: "gg-arrow-long-up-l", title: "Move top" %></td>
+        <td><%= link_to '', "/documents/#{@document.id}/up/#{input.id}", method: :post, class: "gg-arrow-long-up", title: "Move higher" %></td>
+        <td><%= link_to '', "/documents/#{@document.id}/down/#{input.id}", method: :post, class: "gg-arrow-long-down", title: "Move lower" %></td>
+        <td><%= link_to '', "/documents/#{@document.id}/bottom/#{input.id}", method: :post, class: "gg-arrow-long-down-l", title: "Move bottom" %></td>
+        <td><%= link_to '', "/documents/#{@document.id}/#{input.id}", method: :delete, data: { confirm: 'Are you sure?' }, class: "gg-trash", title: "Delete" %></td>
       </tr>
     <% end %>
   </tbody>
