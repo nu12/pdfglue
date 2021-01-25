@@ -2,7 +2,7 @@ class DocumentsController < ApplicationController
   require 'securerandom'
 
   before_action :set_document, only: [:show, :edit, :update, :destroy]
-  before_action :set_document_and_input, only: [:input_move_up, :input_move_down, :input_destroy]
+  before_action :set_document_and_input, only: [:input_move_top, :input_move_up, :input_move_down, :input_move_bottom, :input_destroy]
 
   def index
     @documents = Document.all
@@ -69,8 +69,18 @@ class DocumentsController < ApplicationController
     redirect_to edit_document_path(@document)
   end
 
+  def input_move_top
+    @input.move_to_top
+    redirect_to edit_document_path(@document)
+  end
+
   def input_move_down
     @input.move_lower
+    redirect_to edit_document_path(@document)
+  end
+  
+  def input_move_bottom
+    @input.move_to_bottom
     redirect_to edit_document_path(@document)
   end
 
