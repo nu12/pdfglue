@@ -1,6 +1,5 @@
 <h1>Editing Document</h1>
 
-<%= link_to 'Output', @document %> |
 <%= link_to 'Back', documents_path %>
 
 <%= render 'form', document: @document %>
@@ -17,11 +16,11 @@
     <% @document.sorted_inputs.each do |input| %>
       <tr>
         <td><%= input.blob.filename %></td>
-        <td></span> <%= link_to '', "/documents/#{@document.id}/top/#{input.id}", method: :post, class: "gg-arrow-long-up-l", title: "Move top" %></td>
-        <td><%= link_to '', "/documents/#{@document.id}/up/#{input.id}", method: :post, class: "gg-arrow-long-up", title: "Move higher" %></td>
-        <td><%= link_to '', "/documents/#{@document.id}/down/#{input.id}", method: :post, class: "gg-arrow-long-down", title: "Move lower" %></td>
-        <td><%= link_to '', "/documents/#{@document.id}/bottom/#{input.id}", method: :post, class: "gg-arrow-long-down-l", title: "Move bottom" %></td>
-        <td><%= link_to '', "/documents/#{@document.id}/#{input.id}", method: :delete, data: { confirm: 'Are you sure?' }, class: "gg-trash", title: "Delete" %></td>
+        <td><%= link_to '', "/documents/#{@document.id}/top/#{input.id}", data: {"turbo-method": :post}, class: "gg-arrow-long-up-l", title: "Move top" %></td>
+        <td><%= link_to '', "/documents/#{@document.id}/up/#{input.id}", data: {"turbo-method": :post}, class: "gg-arrow-long-up", title: "Move higher" %></td>
+        <td><%= link_to '', "/documents/#{@document.id}/down/#{input.id}", data: {"turbo-method": :post}, class: "gg-arrow-long-down", title: "Move lower" %></td>
+        <td><%= link_to '', "/documents/#{@document.id}/bottom/#{input.id}", data: {"turbo-method": :post}, class: "gg-arrow-long-down-l", title: "Move bottom" %></td>
+        <td><%= link_to '', "/documents/#{@document.id}/#{input.id}", data: { "turbo-confirm": 'Are you sure?', "turbo-method": :delete }, class: "gg-trash", title: "Delete" %></td>
       </tr>
     <% end %>
   </tbody>

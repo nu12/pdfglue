@@ -14,9 +14,9 @@
     <% @documents.each do |document| %>
       <tr>
         <td><%= document.name %></td>
-        <td><%= link_to 'Output', document %></td>
+        <td><%= link_to 'Output', rails_blob_url(document.output),  target: :_blank %></td>
         <td><%= link_to 'Edit', edit_document_path(document) %></td>
-        <td><%= link_to 'Delete', document, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', document, data: { "turbo-confirm": 'Are you sure?', "turbo-method": :delete } %></td>
       </tr>
     <% end %>
   </tbody>

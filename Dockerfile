@@ -1,4 +1,4 @@
-FROM ruby:2.7.1-alpine as builder
+FROM ruby:2.7.6-alpine as builder
 
 # Set ARG in hooks/build to use Dockerhub autobuild
 ARG RAILS_MASTER_KEY
@@ -9,13 +9,10 @@ WORKDIR /app
 
 COPY . /app/
 
-RUN apk add --no-cache nodejs yarn build-base tzdata postgresql-dev \
+RUN apk add --no-cache build-base tzdata postgresql-dev \
  # Install gems
  && bundle config set without 'development test' \
  && bundle install \
- # Install & compile yarn packages
- && yarn install --production \
- && bin/rails webpacker:compile \
  && bin/rails assets:precompile \
  # Remove unneeded files (cached *.gem, *.o, *.c)
  && ls /usr/local/bundle \
@@ -23,9 +20,9 @@ RUN apk add --no-cache nodejs yarn build-base tzdata postgresql-dev \
  && find /usr/local/bundle/gems/ -name "*.c" -delete \
  && find /usr/local/bundle/gems/ -name "*.o" -delete \
  # Remove folders not needed in resulting image
- && rm -rf node_modules tmp/cache vendor/assets spec
+ && rm -rf tmp/cache vendor/assets spec
 
-FROM ruby:2.7.1-alpine
+FROM ruby:2.7.6-alpine
 
 WORKDIR /app
 
@@ -34,7 +31,7 @@ ENV RAILS_LOG_TO_STDOUT=true \
     NODE_ENV=production \
     RAILS_SERVE_STATIC_FILES=true
 
-RUN apk add --no-cache ghostscript imagemagick postgresql-client tzdata
+RUN apk add --no-cache poppler-utils imagemagick postgresql-client tzdata
 
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder /app/ /app/
